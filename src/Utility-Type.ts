@@ -43,4 +43,23 @@ let p4: AllPerson = {
 type Age = Exclude<string | number | object, string>
 let p5: Age = 1
 // p5 = "" 报错
+
+
+// 6 Record<K,T> 将的所有属性值都映射到另一个类型上并创造一个新的类型.即将K的所有属性类型转为 T
+type Page = "brooke" | "jax" | "other";
+interface PersonInfo {
+  name: string;
+  age: number
+}
+const newPageInfoType : Record<Page, PersonInfo> = {
+  brooke: { name: "hh", age: 18 },
+  jax: { name: "contact", age: 20 },
+  other: { name: "home", age: 25 },
+};
+type keys = 'A' | 'B' | 'C'
+const result: Record<keys, number> = {
+  A: 1,
+  B: 2,
+  C: 3
+}
 export {}
