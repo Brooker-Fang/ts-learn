@@ -62,7 +62,7 @@ const result: Record<keys, number> = {
   B: 2,
   C: 3
 }
-// 表示具有任何字符串属性的所有对象，因此您可以将任何字符串属性附加到该对象
+// 表示具有任何字符串属性的所有对象，可以将任何字符串属性附加到该对象
 const res: Record<string, string> = {
   1: '2'
 }
