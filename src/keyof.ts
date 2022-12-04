@@ -2,6 +2,7 @@
 interface Person {
   name: string,
   age: number
+  sex: string
 }
 type otherType = keyof Person // "name" | "age" | "sex"
 let d: otherType = "name"

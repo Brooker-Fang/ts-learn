@@ -14,3 +14,21 @@ const a = {
   b: ''
 }
 let b:string = a?.b // 想当于 a && a.b
+
+// in 操作符：用于确定对象是否具有某个属性
+type Fish = {swim: () => void}
+type Bird = {fly: () => void}
+function move(animal: Fish | Bird) {
+  if("swim" in animal) {
+    animal.swim()
+  }
+}
+
+// instanceof 
+function logTime(x: Date | string) {
+  if(x instanceof Date) {
+    console.info(x.toDateString())
+    return
+  }
+  console.info(x)
+}
