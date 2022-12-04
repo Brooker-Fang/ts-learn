@@ -6,3 +6,23 @@ function createArr<T = string> (length: number, val: T) :T[] {
 }
 const strArr = createArr<string>(3, 'str') // ['str', 'str','str']
 const numArr = createArr<number>(4, 100) // ['100', '100','100']
+
+// 泛型对象类型
+interface Person<Type> {
+  obj: Type
+}
+const p1:Person<{name: string}> = {
+  obj: {
+    name: "fhh"
+  }
+}
+const p2:Person<{age: number}> = {
+  obj: {
+    age: 18
+  }
+}
+
+type OrNull<Type> = Type | null
+type OneOrMany<Type> = Type | Type[]
+type OneOrManyOrNull<Type> = OneOrMany<OrNull<Type>>
+type OneOrManyOrNullString = OneOrManyOrNull<string>

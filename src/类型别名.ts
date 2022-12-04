@@ -18,4 +18,23 @@ function b(name: string ,num: number):void {
 function c(...[name, num]: Parameters<typeof b>) {
 
 }
+// 当类型重复时，interface会合并类型，而type则不能同名
+interface Person {
+  name: string
+}
+interface Person {
+  age: number
+}
+const obj: Person = {
+  name: "fhh",
+  age: 18
+}
+
+type Person2 = {
+  name: string
+}
+// 报错
+// type Person2 = {
+//   age: number
+// }
 export {}
