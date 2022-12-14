@@ -23,4 +23,12 @@ let a = createLabel(123)
 // type a = NameType
 let v = createLabel("123")
 
+type Exclude<T, U> = T extends U ? never : T
+type ExcludeNumber= Exclude<number|string, number> // string
+// 即结果为 string extends number ? never : string | number extends number ? never : number
+// 所以结果为 string 
+
+type toArray<Type> = Type extends any ? Type[] : never
+type NumberString = toArray<number | string> // string[] | number[]
+
 export {}
