@@ -58,4 +58,8 @@ type MYExclude<T,U> = T extends U ? never : T
 
 type ExcludeBoolean = MYExclude<boolean | number | string, boolean>
 
+
+/* 
+  infer
+*/
 export {}
