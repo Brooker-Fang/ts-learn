@@ -58,7 +58,52 @@ type MYExclude<T,U> = T extends U ? never : T
 
 type ExcludeBoolean = MYExclude<boolean | number | string, boolean>
 
+/* 
+  
+  协变与逆变：型变都是针对父子类型的
+*/
+/* 
+  子类型可以赋值给父类型
+*/
+interface Person {
+  name: string
+}
+// 不需要通过extends确定父子关系，只要结构上一致就可以
+interface Son {
+  name: string
+  age: number
+}
+let p:Person
+let man:Son = {
+  name: "brk",
+  age: 18
+}
+p = man
+let printPerson: () => Person = () => {
+  return {
+    name: "brk"
+  }
+}
+let printSon: () => Son = () => {
+  return man
+}
+printPerson = printSon
+/* 
+  逆变：
+    逆变主要是看函数赋值的时候函数参数的性质。当参数是父类型的时候，可以赋值给参数是子类型的函数.
+    而反过来则不一定，需要关闭strictFunctionTypes 的编译选项，当关闭时，ts则支持双向协变，不然只支持逆变
+*/
 
+let printPersonFunc: (p:Person) => void = (p:Person) => {
+  console.info(p.name)
+}
+let printSonFunc: (s:Son) => void = (p:Person) => {
+  console.info(p.name)
+}
+printSonFunc = printPersonFunc
+// printPersonFunc = (s:Son) => {  // Error
+//   console.info(s.age, s.name)
+// } 
 /* 
   infer
 */
