@@ -44,4 +44,48 @@ type getParamsTest= getParams<(a: string, b: number) => void>
 type getReturnType<T extends Function> = T extends (...args: infer R) => infer Return ? Return:never
 type getReturnTypeTest1= getReturnType<(a: string, b: number) => void>
 type getReturnTypeTest2= getReturnType<(a: string, b: number) => number>
+
+// GetThisParameterType
+type GetThisParameterType<T extends Function> = T extends (this: infer R, ...args: unknown[]) => unknown ? R : never
+class Person {
+  name: string
+  constructor(value: string) {
+    this.name= value
+  }
+  // this 为了防止call、apply调用时改变this时，编译器不报错的问题
+  hello(this: Person) {
+    return this.name
+  }
+  helloNoThis () {
+    return this.name
+  }
+}
+const p = new Person("brk")
+// p.hello.call({name: "test"}) // Error
+p.helloNoThis.call({name: "test"})
+
+type GetThisParameterTypeText = GetThisParameterType<typeof p.hello>
+
+// 获取构造器类型
+type getConstructType<Ctor extends new (...arg: any) => unknown> = Ctor extends new (...arg: any) => infer InstanceType ? InstanceType : never
+interface PersonTest {
+  name: string
+}
+interface ConstructorTest {
+  new (name: string): PersonTest
+}
+type getConstructTypeTest = getConstructType<ConstructorTest> 
+
+// 获取构造器参数类型
+type getConstructParamsType<Ctor extends new (...arg: any) => unknown> = Ctor extends new (...args: infer R) => any ? R : never
+type getConstructParamsTypeTest = getConstructParamsType<ConstructorTest>
+
+// 获取ref
+type getRefProps<Props> = 
+  "ref" extends keyof Props 
+  ? Props extends {ref: infer R} 
+    ? R 
+    : never 
+  : never
+type getRefPropsTest = getRefProps<{ref: number}>
 export {}
