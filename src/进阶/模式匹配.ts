@@ -88,4 +88,11 @@ type getRefProps<Props> =
     : never 
   : never
 type getRefPropsTest = getRefProps<{ref: number}>
+
+/* 
+  当对索引类型做模式匹配的时候，如果有readonly等修饰符，通过模式匹配提取类型时也要加修饰符
+*/
+const arrCons = [1,2,3] as const
+type reverseArr<Arr> = Arr extends readonly [infer A, infer B, infer C] ?  [C,B, A] : []
+type reverseArrTest = reverseArr<typeof arrCons>
 export {}

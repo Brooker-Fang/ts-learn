@@ -13,18 +13,24 @@ type CamelCaseUnion<T extends string> = T extends `${infer Left}_${infer RightFi
 type CamelCaseUnionTest = CamelCaseUnion<"aaa_bbb_ccc">
 type CamelCaseUnionTest2 = CamelCaseUnion<"aaa_bbb_ccc" | "bbb_ddd_eee" | "aaa_ffff_ggg">
 
-// isUnion
+/* 
+  根据extends 条件分布的特性判断是否是联合类型
+*/
 type isUnion<A, B = A> = 
   A extends A // 可以触发分布式条件
   ? [B] extends [A] 
     ? false
     : true
   : never
-type isUnionTest = isUnion<number>
-type isUnionTest2 = isUnion<number | string | boolean>
+  type isUnionTest = isUnion<"1"> // ("1" extend "1"  ? ["1"] extends ["1"] ? false : true) 
+  type isUnionTest2 = isUnion<"1" | "2">
+  // ("1" extend "1" | "2" ? ["1" | "2"] extends ["1"] ? false : true) | !"2" extend "1" | "2" ? ["1" | "2"] extends ["1" | "2"])
 
 // BEM: bem 是 css 命名规范，用 block__element--modifier 的形式来描述某个区块下面的某个元素的某个状态的样式。
 // 传入 block、element、modifier，返回构造出的 class 名,如 type bemResult = BEM<'block', ['div', 'span'], ['warning', 'success']>;
 type BEMType<block extends string, ele extends string[], actions extends string[]> = `.${block}_${ele[number]}--${actions[number]}`
 type BEMTypeTest = BEMType<'block', ['div', 'span'], ['warning', 'success']>
 // Element 和 Modifiers 通过索引变成联合类型
+
+
+export {}
