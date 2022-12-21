@@ -95,4 +95,24 @@ type getRefPropsTest = getRefProps<{ref: number}>
 const arrCons = [1,2,3] as const
 type reverseArr<Arr> = Arr extends readonly [infer A, infer B, infer C] ?  [C,B, A] : []
 type reverseArrTest = reverseArr<typeof arrCons>
+
+// parseQueryString
+type paresParam<T extends string> = T extends `${infer L}=${infer R}` ? {[key in L]: R} : {}
+type paresParamTest = paresParam<"a=1">
+
+// 合并值逻辑是：如果类型相同就返回一个，否则构造一个数组类型来合并
+type mergeValue<Left, Right> = Left extends Right ? Left : Right extends unknown[] ? [Left, ...Right] : [Left, Right]
+type mergeParams<Left extends Record<string, any>, Right extends Record<string, any>> = {
+  [key in keyof Left | keyof Right] : 
+    key extends keyof Left 
+      ? key extends keyof Right 
+        ? mergeValue<Left[key], Right[key]>
+        : Left[key]
+      : key extends keyof Right 
+      ? Right[key]
+      :never
+}
+
+type parseQueryString<T extends string> = T extends `${infer Left}&${infer Right}` ? mergeParams<paresParam<Left>, parseQueryString<Right>> : paresParam<T>
+type parseQueryStringTest = parseQueryString<"a=1&b=2&c=3">
 export {}
