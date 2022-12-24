@@ -70,7 +70,7 @@ type myExcludeTest = myExclude<"a" | "b" | "c", "a">
 type myExtract<T, U> = T extends U ? T : never
 type myExtractTest = myExtract<"a" | "b" | "c", "a">
 
-// Awaited
+// Awaited 判断Promise类型
 type myAwaited<T> = 
   T extends undefined | null 
     ? T
@@ -79,6 +79,22 @@ type myAwaited<T> =
         ? myAwaited<value>
         : F
       : T
+/* 
+  Promise.all、race 
+  all 是等所有promise执行完一起返回，race是有一个执行完就返回
+  约束为 unknown[] | [] 就是 as const 的意思
+*/
+type myPromiseClass = {
+  all<T extends readonly unknown[] | []>(values: T): Promise<{ -readonly [val in keyof T]: Awaited<T[val]>}>
+  race<T extends readonly unknown[] | []>(values: T): Promise<Awaited<T[number]>>
+}
+// 约束为 unknown[] | [] 就是 as const 的意思
+declare function test<T extends readonly unknown[]>(value: T): T
+const res = test([1,2,3]) // number[]
+
+declare function test2<T extends readonly unknown[] | []>(value: T): T
+const res2 = test2([1,2,3]) // [number, number, number]
+
 // 判断是不是非空类型
 type NonNullable<T> = T extends null | undefined ? never : T
 export {}
