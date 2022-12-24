@@ -95,6 +95,11 @@ const res = test([1,2,3]) // number[]
 declare function test2<T extends readonly unknown[] | []>(value: T): T
 const res2 = test2([1,2,3]) // [number, number, number]
 
+// curriedType 柯里化函数
+type curriedParams<Params, Return> = Params extends [infer First, ...infer Rest] ? (arg: First) => curriedParams<Rest, Return> : never
+declare function currying<Func>(fn: Func): Func extends (...args: infer R) => infer Result ? curriedParams<R, Result> : never 
+const func = (a:string, b: number, c: boolean) => {}
+const curriedTypeTest = currying(func)
 // 判断是不是非空类型
 type NonNullable<T> = T extends null | undefined ? never : T
 export {}
