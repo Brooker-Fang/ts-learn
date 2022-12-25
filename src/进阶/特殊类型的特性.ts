@@ -3,6 +3,8 @@
 */
 type IsAny<T> = 1 extends "1" & T ? true : false
 
+// keyof any 表示可用作对象索引的任何值的类型。即 string | number | symbol
+type a = keyof any //  string | number | symbol
 /* 
   isEqual
 */
