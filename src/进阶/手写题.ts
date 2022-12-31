@@ -62,4 +62,9 @@ type PartialObjectPropByKeys<Obj extends Record<string, any>, T extends keyof Ob
 
 type PartialObjectPropByKeysTest = PartialObjectPropByKeys<{name: string, age: number, sex: string}, "name" | "sex">
 
+
+/* 
+  UnionToTuple联合类型转元组类型:
+    利用ReturnType返回的是重载函数的最后一个重载的返回值类型的特性 
+*/
 export {}
